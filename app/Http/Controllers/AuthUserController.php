@@ -11,7 +11,7 @@ class AuthUserController extends Controller
 {
     public function index()
     {
-        return view('login');
+        return view('admin.login');
     }
 
     public function login(Request $request)
@@ -35,7 +35,7 @@ class AuthUserController extends Controller
 
     public function create()
     {
-        return view('register');
+        return view('admin.register');
     }
 
     public function register(Request $request)

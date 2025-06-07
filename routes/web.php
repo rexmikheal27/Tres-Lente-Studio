@@ -12,7 +12,7 @@ Route::middleware('guest.user')->group(function() {
 
 Route::middleware('auth.user')->group(function() {
     Route::get('/dashboard', function() {
-        return view('dashboard');
+        return view('admin.dashboard');
     })->name('dashboard');
     Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout.user');
 });
