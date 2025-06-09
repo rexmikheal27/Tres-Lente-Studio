@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 09:57 AM
+-- Generation Time: Jun 09, 2025 at 09:07 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.2.12
 
@@ -84,7 +84,8 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES
 (1, 'Jose', 'Rizal', 'joserizal@gmail.com', '09552235498', '2025-06-08 23:20:35', '2025-06-08 23:21:06'),
-(2, 'PJ Keanu', 'Ampil', 'pjampil@gmail.com', '09447892463', '2025-06-08 23:43:29', '2025-06-08 23:43:29');
+(2, 'PJ Keanu', 'Ampil', 'pjampil@gmail.com', '09447892463', '2025-06-08 23:43:29', '2025-06-08 23:43:29'),
+(5, 'Rex Mikheal', 'Veradio', 'veradio59@gmail.com', '09557885424', '2025-06-09 07:40:24', '2025-06-09 07:40:24');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,7 @@ CREATE TABLE `client_inquiries` (
 
 INSERT INTO `client_inquiries` (`id`, `client_id`, `service_category_id`, `message`, `status`, `admin_notes`, `created_at`, `updated_at`) VALUES
 (1, 2, 1, 'Hello, I would like to inquire about your corporate photo services.', 'new', NULL, '2025-06-08 23:43:29', '2025-06-08 23:43:29'),
-(2, 1, 2, 'Pakasal ko usob avail ko sa inyung service', 'new', NULL, '2025-06-08 23:46:26', '2025-06-08 23:46:26');
+(2, 1, 2, 'Pakasal ko usob avail ko sa inyung service', 'booked', 'Ez money hahaha', '2025-06-08 23:46:26', '2025-06-09 10:30:53');
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,6 @@ CREATE TABLE `service_categories` (
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` enum('photo','video') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `sort_order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -234,9 +234,10 @@ CREATE TABLE `service_categories` (
 -- Dumping data for table `service_categories`
 --
 
-INSERT INTO `service_categories` (`id`, `name`, `type`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Corporate Photo', 'photo', 1, 1, '2025-06-08 22:55:37', '2025-06-08 22:56:20'),
-(2, 'Wedding Video', 'video', 1, 2, '2025-06-08 23:45:36', '2025-06-08 23:45:36');
+INSERT INTO `service_categories` (`id`, `name`, `type`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Corporate Photo', 'photo', 1, '2025-06-08 22:55:37', '2025-06-08 22:56:20'),
+(2, 'Wedding Video', 'video', 1, '2025-06-08 23:45:36', '2025-06-08 23:45:36'),
+(4, 'Graduation Photo', 'photo', 1, '2025-06-09 06:47:47', '2025-06-09 07:39:43');
 
 -- --------------------------------------------------------
 
@@ -258,7 +259,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ZF17n8urSQAhEPKqOWcblFiZgmrGFaYHFCD0sWOk', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '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', 1749455759);
+('2GXfMZb1KwXNO7v1Hcfgdu8Q6dY5WE5w5goJhQzp', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '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', 1749496020),
+('vMJcUU1dBaf1hbQDaiReDWubr0K6ZJGGRJpofRqm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjY6Il90b2tlbiI7czo0MDoiMkFQcG1JcU1SZWtkUnBuN3NDbHBhOXRZMWtxZUpqU01YSEUxNDRpaSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hYm91dC11cyI7fX0=', 1749495322);
 
 -- --------------------------------------------------------
 
@@ -370,8 +372,7 @@ ALTER TABLE `password_reset_tokens`
 --
 ALTER TABLE `service_categories`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `service_categories_type_is_active_index` (`type`,`is_active`),
-  ADD KEY `service_categories_sort_order_index` (`sort_order`);
+  ADD KEY `service_categories_type_is_active_index` (`type`,`is_active`);
 
 --
 -- Indexes for table `sessions`
@@ -402,13 +403,13 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `client_inquiries`
 --
 ALTER TABLE `client_inquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -438,7 +439,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `service_categories`
 --
 ALTER TABLE `service_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
