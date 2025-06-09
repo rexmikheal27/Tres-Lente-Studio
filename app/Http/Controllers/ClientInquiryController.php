@@ -28,6 +28,19 @@ class ClientInquiryController extends Controller
         return view('admin.inquiry-management', compact('inquiries', 'user'));
     }
     
+    public function view(Request $request, $id)
+    {
+        $user = $request->session()->get('user');
+        
+        if (!$user) {
+            return redirect()->route('login.user');
+        }
+        
+        $inquiry = ClientInquiry::with(['client', 'serviceCategory'])->findOrFail($id);
+        
+        return view('admin.inquiry-view', compact('inquiry', 'user'));
+    }
+    
     public function update(Request $request, $id)
     {
         $inquiry = ClientInquiry::findOrFail($id);

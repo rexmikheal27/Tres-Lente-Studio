@@ -48,10 +48,10 @@
         Tres Lente Studio
       </div>
       <ul class="flex space-x-10 text-lg font-semibold">
-        <li><a href="#home" class="nav-link text-white hover:text-gray-200 transition">Home</a></li>
-        <li><a href="#services" class="nav-link text-white hover:text-gray-200 transition">Services</a></li>
-        <li><a href="#about" class="nav-link text-white hover:text-gray-200 transition">About</a></li>
-        <li><a href="#contact" class="nav-link text-white hover:text-gray-200 transition">Contact</a></li>
+        <li><a href="{{ route('home') }}" class="nav-link text-white hover:text-gray-200 transition">Home</a></li>
+        <li><a href="{{ route('services') }}" class="nav-link text-white hover:text-gray-200 transition">Services</a></li>
+        <li><a href="{{ route('about') }}" class="nav-link text-white hover:text-gray-200 transition">About</a></li>
+        <li><a href="{{ route('contact') }}" class="nav-link text-white hover:text-gray-200 transition">Contact</a></li>
       </ul>
     </div>
   </nav>

@@ -15,7 +15,7 @@ class ContactController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('index', compact('serviceCategories'));
+        return view('contact', compact('serviceCategories'));
     }
 
     public function store(Request $request)
@@ -44,6 +44,6 @@ class ContactController extends Controller
             'message' => $validated['message'],
         ]);
 
-        return redirect('/#contact')->with('success', 'Message sent successfully!');
+        return redirect()->route('contact')->with('success', 'Message sent successfully!');
     }
 }

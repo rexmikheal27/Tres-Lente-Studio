@@ -48,9 +48,9 @@
         <main class="flex-1 bg-gray-100">
             <header class="bg-white shadow-sm px-8 py-6 flex justify-between items-center">
                 <h2 class="text-3xl font-semibold text-gray-800">Client Management</h2>
-                <button onclick="openAddModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                <a href="{{ route('clients.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
                     <i class="ri-add-line mr-2"></i>Add New Client
-                </button>
+                </a>
             </header>
 
             <div class="p-8">
@@ -102,9 +102,9 @@
                                         {{ $client->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick='openEditModal(@json($client))' class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                        <a href="{{ route('clients.edit', $client->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
                                             <i class="ri-edit-line"></i> Edit
-                                        </button>
+                                        </a>
                                         <form action="{{ route('clients.destroy', $client->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure? This will also delete all inquiries from this client.')">
                                             @csrf
                                             @method('DELETE')
@@ -127,86 +127,5 @@
             </div>
         </main>
     </div>
-
-    <!-- Add/Edit Modal -->
-    <div id="clientModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <h3 id="modalTitle" class="text-lg font-semibold text-gray-900 mb-4">Add New Client</h3>
-            <form id="clientForm" method="POST">
-                @csrf
-                <input type="hidden" id="methodField" name="_method" value="POST">
-                
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">
-                        First Name
-                    </label>
-                    <input type="text" name="first_name" id="first_name" required maxlength="50"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="last_name">
-                        Last Name
-                    </label>
-                    <input type="text" name="last_name" id="last_name" required maxlength="50"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                        Email
-                    </label>
-                    <input type="email" name="email" id="email" required maxlength="100"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                        Phone (Optional)
-                    </label>
-                    <input type="tel" name="phone" id="phone" maxlength="20"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Save
-                    </button>
-                    <button type="button" onclick="closeModal()"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'Add New Client';
-            document.getElementById('clientForm').action = '{{ route("clients.store") }}';
-            document.getElementById('methodField').value = 'POST';
-            document.getElementById('clientForm').reset();
-            document.getElementById('clientModal').classList.remove('hidden');
-        }
-
-        function openEditModal(client) {
-            document.getElementById('modalTitle').textContent = 'Edit Client';
-            document.getElementById('clientForm').action = '{{ route("clients.update", ":id") }}'.replace(':id', client.id);
-            document.getElementById('methodField').value = 'PUT';
-            
-            document.getElementById('first_name').value = client.first_name;
-            document.getElementById('last_name').value = client.last_name;
-            document.getElementById('email').value = client.email;
-            document.getElementById('phone').value = client.phone || '';
-            
-            document.getElementById('clientModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('clientModal').classList.add('hidden');
-        }
-    </script>
 </body>
 </html>

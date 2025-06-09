@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name', 100); 
             $table->enum('type', ['photo', 'video']); 
             $table->boolean('is_active')->default(true);
-            $table->integer('sort_order')->default(0);
             $table->timestamps();
             
             $table->index(['type', 'is_active']);

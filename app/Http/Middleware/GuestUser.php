@@ -17,7 +17,7 @@ class GuestUser
     public function handle(Request $request, Closure $next): Response
     {
         if (Session::has('user')) {
-            return redirect('/dashboard');
+            return redirect('admin/dashboard');
         }
         
         return $next($request);

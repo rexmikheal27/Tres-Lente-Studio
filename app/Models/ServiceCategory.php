@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceCategory extends Model
 {
-    protected $fillable = ['name', 'type', 'is_active', 'sort_order'];
+    protected $fillable = ['name', 'type', 'is_active',];
     
     protected $casts = [
         'is_active' => 'boolean',
-        'sort_order' => 'integer'
     ];
     
     public function inquiries()

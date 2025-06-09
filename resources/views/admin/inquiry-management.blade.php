@@ -124,10 +124,10 @@ use Illuminate\Support\Str;
                                         {{ $inquiry->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick='openViewModal(@json($inquiry->load(["client", "serviceCategory"])))' 
+                                        <a href="{{ route('inquiries.view', $inquiry->id) }}" 
                                             class="text-blue-600 hover:text-blue-900 mr-3">
                                             <i class="ri-eye-line"></i> View
-                                        </button>
+                                        </a>
                                         <form action="{{ route('inquiries.destroy', $inquiry->id) }}" method="POST" class="inline" 
                                             onsubmit="return confirm('Are you sure you want to delete this inquiry?')">
                                             @csrf
@@ -151,118 +151,5 @@ use Illuminate\Support\Str;
             </div>
         </main>
     </div>
-
-    <!-- View/Update Modal -->
-    <div id="inquiryModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-        <div class="relative top-20 mx-auto p-5 border w-2/3 max-w-3xl shadow-lg rounded-md bg-white">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Inquiry Details</h3>
-            
-            <!-- Client Information -->
-            <div class="mb-6 bg-gray-50 p-4 rounded">
-                <h4 class="font-semibold text-gray-700 mb-2">Client Information</h4>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <span class="text-sm text-gray-500">Name:</span>
-                        <p id="clientName" class="font-medium"></p>
-                    </div>
-                    <div>
-                        <span class="text-sm text-gray-500">Email:</span>
-                        <p id="clientEmail" class="font-medium"></p>
-                    </div>
-                    <div>
-                        <span class="text-sm text-gray-500">Phone:</span>
-                        <p id="clientPhone" class="font-medium"></p>
-                    </div>
-                    <div>
-                        <span class="text-sm text-gray-500">Service Category:</span>
-                        <p id="serviceCategory" class="font-medium"></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Message -->
-            <div class="mb-6">
-                <h4 class="font-semibold text-gray-700 mb-2">Client Message</h4>
-                <div class="bg-gray-50 p-4 rounded">
-                    <p id="clientMessage" class="text-gray-700 whitespace-pre-wrap"></p>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">Submitted on: <span id="submittedDate"></span></p>
-            </div>
-
-            <!-- Update Form -->
-            <form id="updateForm" method="POST">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="PUT">
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
-                        Update Status
-                    </label>
-                    <select name="status" id="status" required
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="new">New</option>
-                        <option value="contacted">Contacted</option>
-                        <option value="quoted">Quoted</option>
-                        <option value="booked">Booked</option>
-                        <option value="closed">Closed</option>
-                    </select>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="admin_notes">
-                        Admin Notes (Internal Use Only)
-                    </label>
-                    <textarea name="admin_notes" id="admin_notes" rows="3"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Add any internal notes about this inquiry..."></textarea>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Update Status
-                    </button>
-                    <button type="button" onclick="closeModal()"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Close
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openViewModal(inquiry) {
-            // Populate client information
-            document.getElementById('clientName').textContent = inquiry.client.first_name + ' ' + inquiry.client.last_name;
-            document.getElementById('clientEmail').textContent = inquiry.client.email;
-            document.getElementById('clientPhone').textContent = inquiry.client.phone || 'Not provided';
-            
-            // Access the service category - check both possible property names
-            let serviceCategoryName = 'Not specified';
-            if (inquiry.service_category && inquiry.service_category.name) {
-                serviceCategoryName = inquiry.service_category.name;
-            } else if (inquiry.serviceCategory && inquiry.serviceCategory.name) {
-                serviceCategoryName = inquiry.serviceCategory.name;
-            }
-            document.getElementById('serviceCategory').textContent = serviceCategoryName;
-            
-            // Populate inquiry details
-            document.getElementById('clientMessage').textContent = inquiry.message;
-            document.getElementById('submittedDate').textContent = new Date(inquiry.created_at).toLocaleString();
-            
-            // Set form action with correct URL path
-            document.getElementById('updateForm').action = `{{ url('/admin/inquiries') }}/${inquiry.id}`;
-            document.getElementById('status').value = inquiry.status;
-            document.getElementById('admin_notes').value = inquiry.admin_notes || '';
-            
-            // Show modal
-            document.getElementById('inquiryModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('inquiryModal').classList.add('hidden');
-        }
-    </script>
 </body>
 </html>

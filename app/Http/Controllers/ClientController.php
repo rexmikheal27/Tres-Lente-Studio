@@ -23,6 +23,17 @@ class ClientController extends Controller
         return view('admin.client-management', compact('clients', 'user'));
     }
     
+    public function create(Request $request)
+    {
+        $user = $request->session()->get('user');
+        
+        if (!$user) {
+            return redirect()->route('login.user');
+        }
+        
+        return view('admin.client-create', compact('user'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -36,6 +47,19 @@ class ClientController extends Controller
         
         return redirect()->route('client-management')
                         ->with('success', 'Client created successfully.');
+    }
+    
+    public function edit(Request $request, $id)
+    {
+        $user = $request->session()->get('user');
+        
+        if (!$user) {
+            return redirect()->route('login.user');
+        }
+        
+        $client = Client::findOrFail($id);
+        
+        return view('admin.client-edit', compact('client', 'user'));
     }
     
     public function update(Request $request, $id)
@@ -64,7 +88,7 @@ class ClientController extends Controller
     {
         try {
             $client = Client::findOrFail($id);
-            $client->delete(); // This will cascade delete related inquiries
+            $client->delete();
             
             return redirect()->route('client-management')
                             ->with('success', 'Client deleted successfully.');
