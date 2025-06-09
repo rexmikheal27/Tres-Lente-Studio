@@ -25,7 +25,7 @@ class AuthUserController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Session::put('user', $user);
-            return redirect('/dashboard')->with('success', 'Welcome back!');
+            return redirect('/admin/dashboard')->with('success', 'Welcome back!');
         }
 
         return redirect()->route('login.user')
@@ -65,6 +65,6 @@ class AuthUserController extends Controller
     public function logout()
     {
         Session::flush();
-        return redirect('/login')->with('success', 'You have been logged out successfully.');
+        return redirect('/admin/login')->with('success', 'You have been logged out successfully.');
     }
 }
