@@ -193,7 +193,7 @@
 
         function openEditModal(client) {
             document.getElementById('modalTitle').textContent = 'Edit Client';
-            document.getElementById('clientForm').action = `/clients/${client.id}`;
+            document.getElementById('clientForm').action = '{{ route("clients.update", ":id") }}'.replace(':id', client.id);
             document.getElementById('methodField').value = 'PUT';
             
             document.getElementById('first_name').value = client.first_name;

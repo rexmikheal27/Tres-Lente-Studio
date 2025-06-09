@@ -191,9 +191,9 @@ use Illuminate\Support\Str;
 
             <!-- Update Form -->
             <form id="updateForm" method="POST">
-                @csrf
-                @method('PUT')
-                
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="_method" value="PUT">
+
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                         Update Status
@@ -237,14 +237,22 @@ use Illuminate\Support\Str;
             document.getElementById('clientName').textContent = inquiry.client.first_name + ' ' + inquiry.client.last_name;
             document.getElementById('clientEmail').textContent = inquiry.client.email;
             document.getElementById('clientPhone').textContent = inquiry.client.phone || 'Not provided';
-            document.getElementById('serviceCategory').textContent = inquiry.service_category ? inquiry.service_category.name : 'Not specified';
+            
+            // Access the service category - check both possible property names
+            let serviceCategoryName = 'Not specified';
+            if (inquiry.service_category && inquiry.service_category.name) {
+                serviceCategoryName = inquiry.service_category.name;
+            } else if (inquiry.serviceCategory && inquiry.serviceCategory.name) {
+                serviceCategoryName = inquiry.serviceCategory.name;
+            }
+            document.getElementById('serviceCategory').textContent = serviceCategoryName;
             
             // Populate inquiry details
             document.getElementById('clientMessage').textContent = inquiry.message;
             document.getElementById('submittedDate').textContent = new Date(inquiry.created_at).toLocaleString();
             
-            // Set form action and current values
-            document.getElementById('updateForm').action = `/inquiries/${inquiry.id}`;
+            // Set form action with correct URL path
+            document.getElementById('updateForm').action = `{{ url('/admin/inquiries') }}/${inquiry.id}`;
             document.getElementById('status').value = inquiry.status;
             document.getElementById('admin_notes').value = inquiry.admin_notes || '';
             

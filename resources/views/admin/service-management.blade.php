@@ -183,7 +183,7 @@
     <script>
         function openAddModal() {
             document.getElementById('modalTitle').textContent = 'Add New Service';
-            document.getElementById('serviceForm').action = '{{ route("service-categories.store") }}';
+            document.getElementById('serviceForm').action = `{{ url('/admin/service-categories') }}/${service.id}`;
             document.getElementById('methodField').value = 'POST';
             document.getElementById('serviceForm').reset();
             document.getElementById('serviceModal').classList.remove('hidden');
@@ -191,7 +191,7 @@
 
         function openEditModal(service) {
             document.getElementById('modalTitle').textContent = 'Edit Service';
-            document.getElementById('serviceForm').action = `/service-categories/${service.id}`;
+            document.getElementById('serviceForm').action = `/admin/service-categories/${service.id}`; 
             document.getElementById('methodField').value = 'PUT';
             
             document.getElementById('name').value = service.name;
