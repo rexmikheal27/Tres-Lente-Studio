@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamps();
             
             $table->index(['type', 'is_active']);
-            $table->index('sort_order');
         });
     }
 

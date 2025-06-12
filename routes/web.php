@@ -68,7 +68,6 @@ Route::middleware('auth.user')->prefix('admin')->group(function() {
 // Homepage with service categories
 Route::get('/', function () {
     $serviceCategories = ServiceCategory::where('is_active', true)
-        ->orderBy('sort_order')
         ->orderBy('name')
         ->get();
     return view('index', compact('serviceCategories'));

@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 09:07 PM
--- Server version: 10.4.25-MariaDB
+-- Generation Time: Jun 12, 2025 at 08:40 AM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin_users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,8 +45,8 @@ CREATE TABLE `admin_users` (
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -57,8 +57,8 @@ CREATE TABLE `cache` (
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -70,10 +70,10 @@ CREATE TABLE `cache_locks` (
 
 CREATE TABLE `clients` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -83,9 +83,12 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES
-(1, 'Jose', 'Rizal', 'joserizal@gmail.com', '09552235498', '2025-06-08 23:20:35', '2025-06-08 23:21:06'),
-(2, 'PJ Keanu', 'Ampil', 'pjampil@gmail.com', '09447892463', '2025-06-08 23:43:29', '2025-06-08 23:43:29'),
-(5, 'Rex Mikheal', 'Veradio', 'veradio59@gmail.com', '09557885424', '2025-06-09 07:40:24', '2025-06-09 07:40:24');
+(16, 'Jose', 'Rizal', 'jose@riz.al', '1111', '2025-06-10 23:18:10', '2025-06-10 23:22:26'),
+(17, 'Juan', 'Enrile', 'juan@en.rile', '2222', '2025-06-10 23:24:32', '2025-06-10 23:24:32'),
+(18, 'Maria', 'Clara', 'maria@cla.ra', '3333', '2025-06-10 23:26:57', '2025-06-10 23:26:57'),
+(19, 'Bat', 'Man', 'bat@ma.n', '4444', '2025-06-10 23:28:55', '2025-06-10 23:28:55'),
+(20, 'Captain', 'America', 'captain@amric.a', '5555', '2025-06-10 23:30:33', '2025-06-10 23:30:33'),
+(22, 'Andres', 'Bonifacio', 'ab@gmail.com', '99999999999', '2025-06-11 22:33:04', '2025-06-11 22:33:19');
 
 -- --------------------------------------------------------
 
@@ -97,9 +100,9 @@ CREATE TABLE `client_inquiries` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
   `service_category_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('new','contacted','quoted','booked','closed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'new',
-  `admin_notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` text NOT NULL,
+  `status` enum('new','contacted','quoted','booked','closed') NOT NULL DEFAULT 'new',
+  `admin_notes` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -109,8 +112,10 @@ CREATE TABLE `client_inquiries` (
 --
 
 INSERT INTO `client_inquiries` (`id`, `client_id`, `service_category_id`, `message`, `status`, `admin_notes`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 'Hello, I would like to inquire about your corporate photo services.', 'new', NULL, '2025-06-08 23:43:29', '2025-06-08 23:43:29'),
-(2, 1, 2, 'Pakasal ko usob avail ko sa inyung service', 'booked', 'Ez money hahaha', '2025-06-08 23:46:26', '2025-06-09 10:30:53');
+(15, 16, 9, 'Pa picture ko usob kanang lahi nga hairstyle para e butang sa piso.', 'contacted', NULL, '2025-06-10 23:18:10', '2025-06-11 05:07:48'),
+(16, 17, 15, 'VIdeohi ko tong time pas mga dragon.', 'contacted', NULL, '2025-06-10 23:24:32', '2025-06-10 23:25:08'),
+(17, 18, 8, 'Pa picture kos akoa kasal.', 'closed', NULL, '2025-06-10 23:26:57', '2025-06-11 22:34:05'),
+(18, 19, 10, 'Pa picture while nagbantay sa earth.', 'booked', NULL, '2025-06-10 23:28:55', '2025-06-10 23:29:09');
 
 -- --------------------------------------------------------
 
@@ -120,9 +125,9 @@ INSERT INTO `client_inquiries` (`id`, `client_id`, `service_category_id`, `messa
 
 CREATE TABLE `contacts` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `message` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -135,11 +140,11 @@ CREATE TABLE `contacts` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -151,8 +156,8 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -166,13 +171,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `total_jobs` int(11) NOT NULL,
   `pending_jobs` int(11) NOT NULL,
   `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
   `cancelled_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
@@ -186,7 +191,7 @@ CREATE TABLE `job_batches` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -210,8 +215,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -223,8 +228,8 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `service_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` enum('photo','video') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `type` enum('photo','video') NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -235,9 +240,18 @@ CREATE TABLE `service_categories` (
 --
 
 INSERT INTO `service_categories` (`id`, `name`, `type`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Corporate Photo', 'photo', 1, '2025-06-08 22:55:37', '2025-06-08 22:56:20'),
-(2, 'Wedding Video', 'video', 1, '2025-06-08 23:45:36', '2025-06-08 23:45:36'),
-(4, 'Graduation Photo', 'photo', 1, '2025-06-09 06:47:47', '2025-06-09 07:39:43');
+(8, 'Wedding Photography', 'photo', 1, '2025-06-10 23:11:22', '2025-06-10 23:11:22'),
+(9, 'Portrait Sessions', 'photo', 1, '2025-06-10 23:12:03', '2025-06-10 23:12:03'),
+(10, 'Event Coverage', 'photo', 1, '2025-06-10 23:12:17', '2025-06-10 23:12:17'),
+(11, 'Wedding Videos', 'video', 1, '2025-06-10 23:12:28', '2025-06-10 23:12:51'),
+(12, 'Prenup Videos', 'video', 1, '2025-06-10 23:12:41', '2025-06-10 23:12:41'),
+(14, 'Birthday Videos', 'video', 1, '2025-06-10 23:13:26', '2025-06-10 23:13:26'),
+(15, 'Debut Videos', 'video', 1, '2025-06-10 23:13:39', '2025-06-10 23:13:39'),
+(16, 'Corporate Videos', 'video', 1, '2025-06-10 23:13:52', '2025-06-10 23:13:52'),
+(17, 'Wedding Photos', 'photo', 1, '2025-06-10 23:14:37', '2025-06-10 23:14:37'),
+(18, 'Prenup Photos', 'photo', 1, '2025-06-10 23:14:47', '2025-06-10 23:14:47'),
+(19, 'Debut Photos', 'photo', 1, '2025-06-10 23:14:57', '2025-06-10 23:14:57'),
+(20, 'Birthday Photos', 'photo', 1, '2025-06-10 23:15:11', '2025-06-10 23:15:11');
 
 -- --------------------------------------------------------
 
@@ -246,11 +260,11 @@ INSERT INTO `service_categories` (`id`, `name`, `type`, `is_active`, `created_at
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -259,8 +273,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('2GXfMZb1KwXNO7v1Hcfgdu8Q6dY5WE5w5goJhQzp', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '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', 1749496020),
-('vMJcUU1dBaf1hbQDaiReDWubr0K6ZJGGRJpofRqm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjY6Il90b2tlbiI7czo0MDoiMkFQcG1JcU1SZWtkUnBuN3NDbHBhOXRZMWtxZUpqU01YSEUxNDRpaSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hYm91dC11cyI7fX0=', 1749495322);
+('qXdoDG1BXIzoB52oLqlPM1NrnbFGZbInEct3uYqD', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjY6Il90b2tlbiI7czo0MDoicXRBUkJuWHdxdlhsUXl2WEtSTm5OWEFsd05lNm5CUGtaQ21LVXJJTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1749710298);
 
 -- --------------------------------------------------------
 
@@ -270,12 +283,12 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -286,7 +299,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is_active`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Rex Mikheal Veradio', 'rexmikheal927@gmail.com', NULL, '$2y$12$S8cshNy4RCiCwEKQx5pnJuKY5zdFqRMOZhCG7diyykb3EvoO5nLde', 1, NULL, '2025-06-08 16:19:57', '2025-06-08 16:19:57'),
-(2, 'Super Admin', 'admin@treslentestudio.com', NULL, '$2y$12$PcHpITCqGbu6r6Fkyyi1BOZ/m.D4oJ25ADiM0qPlvnD94NI4gu0ay', 1, NULL, '2025-06-08 18:18:40', '2025-06-08 18:18:40');
+(2, 'Super Admin', 'admin@treslentestudio.com', NULL, '$2y$12$PcHpITCqGbu6r6Fkyyi1BOZ/m.D4oJ25ADiM0qPlvnD94NI4gu0ay', 1, NULL, '2025-06-08 18:18:40', '2025-06-08 18:18:40'),
+(3, 'Yoyo Nako', 'yoyonako@yoyo.com', NULL, '$2y$12$yiD4Ux.Xkwry9VYaAIIgtORIrgntBWXIIwp2q0yYcwPXzXB//M9Oi', 1, NULL, '2025-06-09 06:24:53', '2025-06-09 06:24:53'),
+(5, 'Mary Paola Magsayo', 'marypaolamagsayo@gmail.com', NULL, '$2y$12$wYFyZH.A8oPFByCVrX1QUezeH3c4AJri66nOGlR9TnIgVtsbZNP42', 1, NULL, '2025-06-10 23:08:44', '2025-06-10 23:08:44');
 
 --
 -- Indexes for dumped tables
@@ -403,13 +418,13 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `client_inquiries`
 --
 ALTER TABLE `client_inquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -439,13 +454,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `service_categories`
 --
 ALTER TABLE `service_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

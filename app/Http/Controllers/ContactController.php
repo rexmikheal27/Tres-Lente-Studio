@@ -12,7 +12,6 @@ class ContactController extends Controller
     public function index()
     {
         $serviceCategories = ServiceCategory::where('is_active', true)
-            ->orderBy('sort_order')
             ->get();
 
         return view('contact', compact('serviceCategories'));
@@ -29,6 +28,8 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
+        $location = $request->get('location', 'unknown');
+
         $client = Client::updateOrCreate(
             ['email' => $validated['email']],
             [
@@ -44,6 +45,18 @@ class ContactController extends Controller
             'message' => $validated['message'],
         ]);
 
-        return redirect()->route('contact')->with('success', 'Message sent successfully!');
+        $redirectUrl = '';
+
+        if ($location === 'home') {
+            // If 'home', redirect to the home route with the #contact fragment
+            $redirectUrl = route('home') . '#contact';
+        } else {
+            // Otherwise, redirect to the contact page route
+            $redirectUrl = route('contact');
+        }
+
+
+
+        return redirect($redirectUrl)->with('success', 'Message sent successfully!');
     }
 }
